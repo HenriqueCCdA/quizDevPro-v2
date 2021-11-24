@@ -1,0 +1,17 @@
+# ambiente virtuaç
+.venv
+# banco de dados
+db.sqlite3
+# codebyte do python
+*__pycache__*
+# pytest
+*.pytest_cache*
+# codecov
+.coverage
+# arquivos de variaveis de ambiente
+.env
+# IDE
+.vscode
+.idea
+# arquivos estaticos
+staticfiles/

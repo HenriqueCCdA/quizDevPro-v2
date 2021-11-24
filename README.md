@@ -151,6 +151,26 @@ WSGI                          | Gunicorn
 * Configurando o **CI**.
   > Link para o GitHub Actions [file](https://github.com/HenriqueCCdA/urlRedure/tree/main/.github/workflows)
 
+* Criando o usuario costumizado:
+
+  > O usuário costumizado irá ficar no aquivos models.py do app encutador. O código base foi retirado da classe AbstracticUser encontrado no módulo django.contib.auth.models.py.
+
+  > Criar UserManager usando novamente a Classe UserManager do módulo django.contib.auth.models.py.
+
+
+    Criar a varialvel no settings.py
+
+    ```python
+    AUTH_USER_MODEL='devpro.encutador'
+    ```
+
+    Para testa posse usar o makemigrations
+
+    ```console
+    python manage.py makemigrations
+    ```
+
+
 * Instalando o ipython e django-extensions
 
     ```python
@@ -162,7 +182,9 @@ WSGI                          | Gunicorn
 
 * Instalando django debug toolbar
 
-  Adicionar o codigo abaixo no arquivo settings.py
+  Precisa da tabela de usuarios. Por isso tem que se feita depois do migrate 
+
+  Adicionar o código abaixo no arquivo settings.py
 
     ```python
     INTERNAL_IPS = config('INTERNAL_IPS', cast=Csv(), default=None)
@@ -259,24 +281,7 @@ WSGI                          | Gunicorn
 
 ### 3) Iniciando o projeto 🛠
 
-* Criando o usuario costumizado:
 
-  > O usuário costumizado irá ficar no aquivos models.py do app encutador. O código base foi retirado da classe AbstracticUser encontrado no módulo django.contib.auth.models.py.
-
-  > Criar UserManager usando novamente a Classe UserManager do módulo django.contib.auth.models.py.
-
-
-    Criar a varialvel no settings.py
-
-    ```python
-    AUTH_USER_MODEL='devpro.encutador'
-    ```
-
-    Para testa posse usar o makemigrations
-
-    ```console
-    python manage.py makemigrations
-    ```
 
 ### 4) Modelo de Dados Final 🛠
 

@@ -8,7 +8,7 @@
 
 Nesse repositorio temos o projeto desenvolvido no BootCamp Dev Pro da [PythonPro](www.python.pro.br). O objetivo desse projeto é desenvolver um redutor de url. O link para o deploy da aplicação no **Heroku** pode ser encontrada no link abaixo:
 
-🔥🔥🔥[https://urlreduce.herokuapp.com/](https://urlreduce.herokuapp.com/)🔥🔥🔥
+🔥🔥🔥[https://quizdevprov2.herokuapp.com/](https://quizdevprov2.herokuapp.com//)🔥🔥🔥
 
 
 
@@ -51,7 +51,7 @@ WSGI                          | Gunicorn
 
 * Instalando as dependencias do projeto:
 
-    ```
+    ```console 
     django
     dj-database-url
     python-decouple
@@ -91,7 +91,7 @@ WSGI                          | Gunicorn
 
    ```console
    pipenv shell
-   django-admin.exe startproject devpro .
+   django-admin.exe startproject quiz .
    ```
 
   Para testar pode-se rodar o servidor através de:

@@ -220,18 +220,33 @@ WSGI                          | Gunicorn
 
 * Criando o aquivo Procfile:
 
-    ```yaml
+    ```yml
     release: python manage.py migrate --noinput
     web: gunicorn devpro.wsgi --log-file -
     ```
 
-* Configurando o postgres
-
-* Crianda apps pelo heroku-cli:
+* Criando apps pelo heroku-cli:
 
     ```console
     heroku apps:create urlreduce
     ```
+    
+    Configuração para testar o deploy inicial
+   
+    ```console
+    heroku config:set DISABLE_COLLECTSTATIC=1
+    ```
+* Testando do deploy no heroku:
+
+   ```console
+   git push heroku branch_local:master
+   ```
+
+* Configuração para o Deploy automatico é feita no site.
+
+* Configurando o postgres
+
+
 
 * Chave gerando a chave secreta para heroku:
 
@@ -247,13 +262,7 @@ WSGI                          | Gunicorn
     heroku config:set SECRET_KEY="chave secreta de verdade"
     ```
 
-* Testando do deploy no heroku:
 
-   ```console
-   git push heroku branch_local:master
-   ```
-
-* Configuração para o Deploy automatico é feita no site.
 
 
 ### 3) Iniciando o projeto 🛠

@@ -1,0 +1,8 @@
+django
+dj-database-url
+python-decouple
+ipython
+django-extensions
+psycopg2-binary # opcional
+sentry-sdk
+gunicorn

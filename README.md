@@ -133,19 +133,6 @@ WSGI                          | Gunicorn
           target: 0%
   ```
 
-* Criar a aplicação **base**
-
-  ```console
-  cd devpro
-  python ..\manage.py startapp base
-  ```
-
-  Para testar pode-se rodar o servidor através de:
-
-  ```console
-  python manage.py runserver
-  ```
-
 * Configurando o pytest-django
 
   criar o arquivo pytest.in
@@ -160,6 +147,9 @@ WSGI                          | Gunicorn
     ```console
     python -m pytest
     ```
+
+* Configurando o **CI**.
+  > Link para o GitHub Actions [file](https://github.com/HenriqueCCdA/urlRedure/tree/main/.github/workflows)
 
 * Instalando o ipython e django-extensions
 
@@ -202,7 +192,6 @@ WSGI                          | Gunicorn
     pipenv install whitenose
     ```
 
-
 * Instalando o sentry:
 
   Configurando o **SENTRY_DSN** no heroku:
@@ -211,9 +200,12 @@ WSGI                          | Gunicorn
     heroku config:set SENTRY_DSN="https://asdasdasdsad"
     ```
 
+* Criar a aplicação **base**
 
-* Configurando o **CI**.
-  > Link para o GitHub Actions [file](https://github.com/HenriqueCCdA/urlRedure/tree/main/.github/workflows)
+  ```console
+  cd devpro
+  python ..\manage.py startapp base
+  ```
 
 
 ### 2) Deploy no heroku 🛠

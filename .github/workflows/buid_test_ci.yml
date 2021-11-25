@@ -27,15 +27,23 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements-dev.txt
+
       - name: Copying configurations
         run: |
           cp contrib/env-sample .env
+
       - name: Lint with flake8
         run: |
           flake8 .
+
+      - name: Run Collectstatic for the whitenoise
+        run: |
+          python manage.py collectstatic --noinput
+
       - name: Test with pytest
         run: |
           pytest quiz --cov=quiz
+
       - name: Posting Coverage
         run: |
           codecov

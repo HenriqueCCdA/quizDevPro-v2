@@ -60,6 +60,7 @@ WSGI                          | Gunicorn
     psycopg2-binary # opcional
     sentry-sdk
     gunicorn
+    whitenoise
     ```
 
 * Instalando as dependencias de desenvolvimento:
@@ -75,6 +76,8 @@ WSGI                          | Gunicorn
 
 * gerando e instalando as dependecias de desenvolmineto
   ```
+  pip-compile requirements.in
+  pip install -r requirements.txt
   pip-compile requirements-dev.in
   pip install -r requirements-dev.txt
   ```
@@ -149,26 +152,21 @@ WSGI                          | Gunicorn
     ```
 
 * Configurando o **CI**.
-  > Link para o GitHub Actions [file](https://github.com/HenriqueCCdA/urlRedure/tree/main/.github/workflows)
+  > Link para o GitHub Actions [file](https://github.com/HenriqueCCdA/quizDevPro-v2/tree/main/.github/workflows)
 
 * Criando o usuario costumizado:
 
-  > O usuário costumizado irá ficar no aquivos models.py do app encutador. O código base foi retirado da classe AbstracticUser encontrado no módulo django.contib.auth.models.py.
+  O código base foi retirado da classe AbstracticUser e UserManager encontrado no módulo django.contib.auth.models.py. Criar a varialvel no settings.py
 
-  > Criar UserManager usando novamente a Classe UserManager do módulo django.contib.auth.models.py.
+  ```python
+  AUTH_USER_MODEL='quiz.encutador'
+  ```
+    
+  Para testa posse usar o makemigrations
 
-
-    Criar a varialvel no settings.py
-
-    ```python
-    AUTH_USER_MODEL='devpro.encutador'
-    ```
-
-    Para testa posse usar o makemigrations
-
-    ```console
-    python manage.py makemigrations
-    ```
+  ```console
+  python manage.py makemigrations
+  ```
 
 
 * Instalando o ipython e django-extensions
@@ -213,6 +211,14 @@ WSGI                          | Gunicorn
     ```console
     pipenv install whitenose
     ```
+  ```python
+  MIDDLEWARE = [
+  'django.middleware.security.SecurityMiddleware',
+  'whitenoise.middleware.WhiteNoiseMiddleware',
+  # ...
+   ]
+  ```
+
 
 * Instalando o sentry:
 

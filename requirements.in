@@ -6,3 +6,4 @@ django-extensions
 psycopg2-binary # opcional
 sentry-sdk
 gunicorn
+whitenoise

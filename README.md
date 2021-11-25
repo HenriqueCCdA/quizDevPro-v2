@@ -21,7 +21,7 @@ Framework FrontEnd            | Chart.js
 CI                            | Github Actions
 CD                            | Heroku
 Banco de dados                | PostgresSQL
-Gestão de dependecias         | Pipenv
+Gestão de dependecias         | pip-tools
 Testes                        | Pytest
 Relatorio de Erros            | Sentry
 Servidor de arquivo estaticos | Whitenose
@@ -278,13 +278,6 @@ WSGI                          | Gunicorn
     heroku config:set SECRET_KEY="chave secreta de verdade"
     ```
 
-
-
-
-### 3) Iniciando o projeto 🛠
-
-
-
-### 4) Modelo de Dados Final 🛠
+### 3) Modelo de Dados Final 🛠
 
 ![Modelo](./models.svg)

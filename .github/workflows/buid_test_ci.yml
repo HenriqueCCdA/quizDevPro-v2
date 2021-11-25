@@ -33,9 +33,9 @@ jobs:
       - name: Lint with flake8
         run: |
           flake8 .
-#      - name: Test with pytest
-#        run: |
-#          pytest devpro --cov=devpro
+      - name: Test with pytest
+        run: |
+          pytest quiz --cov=quiz
       - name: Posting Coverage
         run: |
           codecov

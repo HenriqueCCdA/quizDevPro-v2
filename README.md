@@ -248,10 +248,10 @@ WSGI                          | Gunicorn
 * Criando apps pelo heroku-cli:
 
     ```console
-    heroku apps:create urlreduce
+    heroku apps:create nomeapp
     ```
     
-    Configuração para testar o deploy inicial
+    Configuração para testar o deploy inicial sem coleta de arquivos estáticos
    
     ```console
     heroku config:set DISABLE_COLLECTSTATIC=1
@@ -263,10 +263,6 @@ WSGI                          | Gunicorn
    ```
 
 * Configuração para o Deploy automatico é feita no site.
-
-* Configurando o postgres
-
-
 
 * Chave gerando a chave secreta para heroku:
 

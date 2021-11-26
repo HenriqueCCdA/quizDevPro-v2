@@ -9,12 +9,12 @@ from quiz.base.django_assertions import assert_contains
 
 @pytest.fixture
 def response(client: Client):
-    return client.get(reverse('base:home'))
+    return client.get(reverse('base:pergunta', args=(1, )))
 
 
-def test_home_status_ok(response):
+def test_question_page_status_ok(response):
     assert response.status_code == HTTPStatus.OK  # 200
 
 
 def test_home_content(response):
-    assert_contains(response, '<button>Entrar</button>')
+    assert_contains(response, '<h2>Questão')

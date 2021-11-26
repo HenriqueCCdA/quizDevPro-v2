@@ -7,3 +7,7 @@ def home(request):
 
 def pergunta(request, slug):
     return render(request, 'base/pergunta.html')
+
+
+def classificacao(request):
+    return render(request, 'base/classificacao.html')

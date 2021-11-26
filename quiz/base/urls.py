@@ -1,9 +1,10 @@
 from django.urls import path
 
-from quiz.base.views import home, pergunta
+from quiz.base import views
 
 app_name = 'base'
 urlpatterns = [
-    path('', home, name='home'),
-    path('pergunta/<slug:slug>', pergunta, name='pergunta'),
+    path('', views.home, name='home'),
+    path('pergunta/<slug:slug>', views.pergunta, name='pergunta'),
+    path('classificacao/', views.classificacao, name='classificacao'),
 ]

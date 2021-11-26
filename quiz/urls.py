@@ -19,7 +19,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('quiz.base.urls'))
+    path('', include('quiz.base.urls')),
 ]
 
 if settings.DEBUG:

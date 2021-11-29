@@ -12,6 +12,5 @@ class Pergunta(models.Model):
         (3, 'D'),
     ])
 
-
     def __str__(self):
         return self.enunciado

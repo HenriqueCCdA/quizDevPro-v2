@@ -10,6 +10,9 @@ def home(request):
         if form.is_valid():
             form.save()
             return redirect(reverse('base:pergunta',  kwargs={'slug': 1}))
+        else:
+            contexto = {'formulario': form}
+            return render(request, 'base/home.html', contexto)
 
     return render(request, 'base/home.html')
 

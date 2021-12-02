@@ -40,15 +40,21 @@ def pergunta(request, slug):
         return redirect(reverse('base:home'))
 
     else:
-        question = list(Pergunta.objects.filter(disponivel=True, id=slug))
 
-        data = {'question_index': slug}
+        pergunta = list(Pergunta.objects.filter(disponivel=True, id=slug))
+        contexto = {'question_index': slug}
+        if pergunta:  # is not empty
+            pergunta = pergunta[0]
+            contexto['question'] = pergunta
 
-        if question:  # is not empty
-            question = question[0]
-            data['question'] = question
+        if request.method == 'POST':
+            resposta_indice = int(request.POST['resposta_indice'])
+            if resposta_indice == pergunta.alternativas_correta:
+                # Armazenar dados da respota
+                return redirect(reverse('base:pergunta',  kwargs={'slug': int(slug) + 1}))
+            contexto['resposta_indice'] = resposta_indice
 
-    return render(request, 'base/pergunta.html', data)
+        return render(request, 'base/pergunta.html', contexto)
 
 
 def classificacao(request):

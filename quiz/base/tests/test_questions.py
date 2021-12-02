@@ -71,4 +71,4 @@ def testa_o_conteudo_pagina_da_pergunta_com_o_usuario_logado(reponse_com_usuario
     assert_contains(reponse_com_usuario_logado, f'<h3>{um_pergunta_db.enunciado}</h3>')
     # Alternatives
     for alt in um_pergunta_db.alternativas['array']:
-        assert_contains(reponse_com_usuario_logado, f'<p class="choice-text">{alt}</p>')
+        assert_contains(reponse_com_usuario_logado, alt)

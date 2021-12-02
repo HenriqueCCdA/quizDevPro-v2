@@ -13,52 +13,62 @@ SLUG = 1
 
 
 @pytest.fixture
-def one_question(db):
+def um_pergunta_db(db):
     alternatives = ['def', 'func', '@', 'if']
     return baker.make(Pergunta, disponivel=True, alternativas={'array': alternatives})
 
 
 @pytest.fixture
-def response(client: Client, db):
+def response_sem_usuario_logado(client: Client, um_pergunta_db):
     return client.get(reverse('base:pergunta', kwargs={'slug': SLUG}))
 
 
 @pytest.fixture
-def response_with_question(client: Client, one_question):
-    return client.get(reverse('base:pergunta', kwargs={'slug': 1}))
+def reponse_com_usuario_logado(client: Client, um_pergunta_db):
+    session = client.session
+    session['aluno_id'] = 1
+    session.save()
+    session.save()
+
+    return client.get(reverse('base:pergunta', kwargs={'slug': SLUG}))
 
 
 @pytest.mark.parametrize(('slug', ), [
     (1, ),
     (2, ),
 ])
-def test_reverse_for_question_page(slug):
+def testa_reverse_para_a_pagina_de_pergunta(slug):
     '''
-    Test reverse functio for pergunta for the slugs 1 and 2
+    Testa a funcao reverse para pergunta
     :param slug:
     '''
     assert f'/pergunta/{slug}' == reverse('base:pergunta', kwargs={'slug': slug})
 
 
-def test_question_page_status_ok(response):
+def testa_status_code_pagina_da_pergunta_sem_o_usuario_logado(response_sem_usuario_logado):
     '''
-    Test the status code of question page
-    :param response:
+    Testa o redirecionamento da pagina da pergunta quando o usuario não esta logado
     '''
-    assert response.status_code == HTTPStatus.OK  # 200
+    assert response_sem_usuario_logado.status_code == HTTPStatus.FOUND  # 302
+    assert response_sem_usuario_logado.headers['Location'] == reverse('base:home')
 
 
-def test_question_page_content_with_question(response_with_question, one_question):
+def testa_status_code_pagina_da_pergunta_com_o_usuario_logado(reponse_com_usuario_logado):
     '''
-    Test if the question is correct rendering in de page.
+    Testa o redirecionamento da pagina da pergunta quando o usuario não esta logado
+    '''
 
-    :param response:
-    :param one_question:
+    assert reponse_com_usuario_logado.status_code == HTTPStatus.OK  # 302
+
+
+def testa_o_conteudo_pagina_da_pergunta_com_o_usuario_logado(reponse_com_usuario_logado, um_pergunta_db):
+    '''
+    Testa o contuedo da paragina da pergunta com o usuario o usuario logado.
     '''
     slug = SLUG
 
-    assert_contains(response_with_question, f'<h2> Questão {slug} </h2>')
-    assert_contains(response_with_question, f'<h3>{one_question.enunciado}</h3>')
+    assert_contains(reponse_com_usuario_logado, f'<h2> Questão {slug} </h2>')
+    assert_contains(reponse_com_usuario_logado, f'<h3>{um_pergunta_db.enunciado}</h3>')
     # Alternatives
-    for alt in one_question.alternativas['array']:
-        assert_contains(response_with_question, f'<p class="choice-text">{alt}</p>')
+    for alt in um_pergunta_db.alternativas['array']:
+        assert_contains(reponse_com_usuario_logado, f'<p class="choice-text">{alt}</p>')

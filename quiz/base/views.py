@@ -33,13 +33,20 @@ def home(request):
 
 def pergunta(request, slug):
 
-    question = list(Pergunta.objects.filter(disponivel=True, id=slug))
+    try:
+        request.session['aluno_id']
 
-    data = {'question_index': slug}
+    except KeyError:
+        return redirect(reverse('base:home'))
 
-    if question:  # is not empty
-        question = question[0]
-        data['question'] = question
+    else:
+        question = list(Pergunta.objects.filter(disponivel=True, id=slug))
+
+        data = {'question_index': slug}
+
+        if question:  # is not empty
+            question = question[0]
+            data['question'] = question
 
     return render(request, 'base/pergunta.html', data)
 

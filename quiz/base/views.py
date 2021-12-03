@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, reverse
+from django.utils.timezone import now
 
 from quiz.base.forms import AlunoForm
-from quiz.base.models import Pergunta, Aluno
+from quiz.base.models import Pergunta, Aluno, Resposta
 
 
 def home(request):
@@ -31,11 +32,14 @@ def home(request):
     return render(request, 'base/home.html')
 
 
+PONTUACAO_MAXIMA = 1000
+
+
 def pergunta(request, slug):
 
     indice = int(slug)
     try:
-        request.session['aluno_id']
+        aluno_id = request.session['aluno_id']
 
     except KeyError:
         return redirect(reverse('base:home'))
@@ -55,6 +59,18 @@ def pergunta(request, slug):
                 resposta_indice = int(request.POST['indice_resposta'])
                 if resposta_indice == pergunta.alternativas_correta:
                     # Armazenar dados da respota
+                    try:
+                        data_da_primeira_resposta = Resposta.objects.filter(pergunta_id=pergunta.id
+                                                                            ).order_by('respondida_em')[0].respondida_em
+                    except IndexError:
+                        pontos = PONTUACAO_MAXIMA
+                        # Resposta(aluno_id=aluno_id, pergunta_id=pergunta.id, pontos=PONTUACAO_MAXIMA).save()
+                    else:
+                        diferenca_em_segundos = int((now() - data_da_primeira_resposta).total_seconds())
+                        pontos = max(PONTUACAO_MAXIMA - diferenca_em_segundos, 10)
+                    finally:
+                        Resposta(aluno_id=aluno_id, pergunta_id=pergunta.id, pontos=pontos).save()
+
                     return redirect(reverse('base:pergunta',  kwargs={'slug': indice + 1}))
                 contexto['indice_resposta'] = resposta_indice
 

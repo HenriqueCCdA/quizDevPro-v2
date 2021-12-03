@@ -33,6 +33,7 @@ def home(request):
 
 def pergunta(request, slug):
 
+    indice = int(slug)
     try:
         request.session['aluno_id']
 
@@ -41,20 +42,23 @@ def pergunta(request, slug):
 
     else:
 
-        pergunta = list(Pergunta.objects.filter(disponivel=True, id=slug))
-        contexto = {'question_index': slug}
-        if pergunta:  # is not empty
-            pergunta = pergunta[0]
-            contexto['question'] = pergunta
+        try:
+            pergunta = Pergunta.objects.filter(disponivel=True).order_by('id')[indice-1]
 
-        if request.method == 'POST':
-            resposta_indice = int(request.POST['resposta_indice'])
-            if resposta_indice == pergunta.alternativas_correta:
-                # Armazenar dados da respota
-                return redirect(reverse('base:pergunta',  kwargs={'slug': int(slug) + 1}))
-            contexto['resposta_indice'] = resposta_indice
+        except IndexError:
+            return redirect(reverse('base:classificacao'))
 
-        return render(request, 'base/pergunta.html', contexto)
+        else:
+            contexto = {'indice_pergunta': indice,
+                        'pergunta': pergunta}
+            if request.method == 'POST':
+                resposta_indice = int(request.POST['indice_resposta'])
+                if resposta_indice == pergunta.alternativas_correta:
+                    # Armazenar dados da respota
+                    return redirect(reverse('base:pergunta',  kwargs={'slug': indice + 1}))
+                contexto['indice_resposta'] = resposta_indice
+
+            return render(request, 'base/pergunta.html', contexto)
 
 
 def classificacao(request):

@@ -10,4 +10,4 @@ class PeguntaAdmin(admin.ModelAdmin):
 
 @admin.register(Resposta)
 class RepostasAdmin(admin.ModelAdmin):
-    list_display = ('id', 'aluno', 'pergunta', 'pontos', 'respondida_em')
+    list_display = ('id', 'aluno', 'aluno_id', 'pergunta', 'pergunta_id', 'pontos', 'respondida_em')

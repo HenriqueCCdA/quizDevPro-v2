@@ -30,4 +30,5 @@ class Resposta(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.aluno.email} {self.pergunta.enunciado}'
+        return f'Aluno_id {self.aluno_id} Pergunta_id {self.pergunta_id}'
+#       return f'{self.aluno.email} {self.pergunta.enunciado}'

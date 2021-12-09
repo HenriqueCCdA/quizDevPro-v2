@@ -1,21 +1,21 @@
-from django.db.models import Sum
 from django.shortcuts import render, redirect, reverse
 from django.utils.timezone import now
 
 from quiz.base.forms import AlunoForm
 from quiz.base.models import Pergunta, Aluno, Resposta
+from quiz.base.facade import (calcula_a_pontuacao_do, calcula_o_numero_de_alunos_com_pontuacao_maior_que,
+                              lista_de_alunos)
 
 
 def home(request):
 
     if request.method == 'POST':
 
-        # Usuario já existe
         email = request.POST['email']
         try:
+            # Usuario já existe
             aluno = Aluno.objects.get(email=email)
         except Aluno.DoesNotExist:
-
             # Usuário não existe
             form = AlunoForm(request.POST)
             if form.is_valid():
@@ -59,13 +59,12 @@ def pergunta(request, slug):
             if request.method == 'POST':
                 resposta_indice = int(request.POST['indice_resposta'])
                 if resposta_indice == pergunta.alternativas_correta:
-                    # Armazenar dados da respota
+                    # Armazenar dados da resposta
                     try:
                         data_da_primeira_resposta = Resposta.objects.filter(pergunta_id=pergunta.id
                                                                             ).order_by('respondida_em')[0].respondida_em
                     except IndexError:
                         pontos = PONTUACAO_MAXIMA
-                        # Resposta(aluno_id=aluno_id, pergunta_id=pergunta.id, pontos=PONTUACAO_MAXIMA).save()
                     else:
                         diferenca_em_segundos = int((now() - data_da_primeira_resposta).total_seconds())
                         pontos = max(PONTUACAO_MAXIMA - diferenca_em_segundos, 10)
@@ -84,16 +83,9 @@ def classificacao(request):
     except KeyError:
         return redirect(reverse('base:home'))
     else:
-        pontos = Resposta.objects.filter(aluno_id=aluno_id).aggregate(Sum('pontos'))
-        pontos = pontos['pontos__sum']
-        numero_de_alunos_com_maior_pontuacao = (Resposta.objects.values('aluno')
-                                                        .annotate(Sum('pontos'))
-                                                        .filter(pontos__sum__gt=pontos)
-                                                        .count())
-
-        primeiros_alunos_da_classificacao = list(Resposta.objects.values('aluno', 'aluno__nome')
-                                                                 .annotate(Sum('pontos'))
-                                                                 .order_by('-pontos__sum')[:5])
+        pontos = calcula_a_pontuacao_do(aluno_id=aluno_id)
+        numero_de_alunos_com_maior_pontuacao = calcula_o_numero_de_alunos_com_pontuacao_maior_que(pontos)
+        primeiros_alunos_da_classificacao = lista_de_alunos()
 
         contexto = {'pontuacao_do_aluno': pontos,
                     'posicao_do_aluno': numero_de_alunos_com_maior_pontuacao + 1,

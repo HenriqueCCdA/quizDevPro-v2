@@ -52,7 +52,7 @@ def test_home_post_com_aluno_com_email_novo(response_post_com_aluno_com_email_no
     assert aluno_novo.nome == aluno.nome
     assert aluno_novo.email == aluno.email
     assert response_post_com_aluno_com_email_novo.status_code == HTTPStatus.FOUND
-    assert response_post_com_aluno_com_email_novo.headers['Location'] == reverse('base:pergunta',  kwargs={'slug': 1})
+    assert response_post_com_aluno_com_email_novo.headers['Location'] == reverse('base:pergunta',  kwargs={'indice': 1})
 
 
 def test_home_post_com_aluno_com_email_cadastrado(response_post_com_aluno_com_email_cadastrado, um_aluno_db):
@@ -62,4 +62,4 @@ def test_home_post_com_aluno_com_email_cadastrado(response_post_com_aluno_com_em
 
     assert response_post_com_aluno_com_email_cadastrado.status_code == HTTPStatus.FOUND
     assert response_post_com_aluno_com_email_cadastrado.headers['Location'] == reverse('base:pergunta',
-                                                                                       kwargs={'slug': 1})
+                                                                                       kwargs={'indice': 1})

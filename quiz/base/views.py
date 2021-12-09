@@ -21,14 +21,14 @@ def home(request):
             if form.is_valid():
                 aluno = form.save()
                 request.session['aluno_id'] = aluno.id
-                return redirect(reverse('base:pergunta',  kwargs={'slug': 1}))
+                return redirect(reverse('base:pergunta',  kwargs={'indice': 1}))
             else:
                 contexto = {'formulario': form}
                 return render(request, 'base/home.html', contexto)
 
         else:
             request.session['aluno_id'] = aluno.id
-            return redirect(reverse('base:pergunta',  kwargs={'slug': 1}))
+            return redirect(reverse('base:pergunta',  kwargs={'indice': 1}))
 
     return render(request, 'base/home.html')
 
@@ -36,9 +36,8 @@ def home(request):
 PONTUACAO_MAXIMA = 1000
 
 
-def pergunta(request, slug):
+def pergunta(request, indice):
 
-    indice = int(slug)
     try:
         aluno_id = request.session['aluno_id']
 
@@ -71,7 +70,7 @@ def pergunta(request, slug):
                     finally:
                         Resposta(aluno_id=aluno_id, pergunta_id=pergunta.id, pontos=pontos).save()
 
-                    return redirect(reverse('base:pergunta',  kwargs={'slug': indice + 1}))
+                    return redirect(reverse('base:pergunta',  kwargs={'indice': indice + 1}))
                 contexto['indice_resposta'] = resposta_indice
 
             return render(request, 'base/pergunta.html', contexto)

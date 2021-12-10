@@ -4,7 +4,7 @@ from django.utils.timezone import now
 from quiz.base.forms import AlunoForm
 from quiz.base.models import Pergunta, Aluno, Resposta
 from quiz.base.facade import (calcula_a_pontuacao_do, calcula_o_numero_de_alunos_com_pontuacao_maior_que,
-                              lista_de_alunos)
+                              lista_de_alunos, quiz_finalizado, numero_repostas_respondidas)
 
 
 def home(request):
@@ -28,7 +28,13 @@ def home(request):
 
         else:
             request.session['aluno_id'] = aluno.id
-            return redirect(reverse('base:pergunta',  kwargs={'indice': 1}))
+
+            if(quiz_finalizado(aluno.id)):
+                return redirect(reverse('base:classificacao'))
+
+            repostas_respondidas = numero_repostas_respondidas(aluno.id)
+
+            return redirect(reverse('base:pergunta',  kwargs={'indice': repostas_respondidas+1}))
 
     return render(request, 'base/home.html')
 

@@ -1,6 +1,6 @@
 from django.db.models import Sum
 
-from quiz.base.models import Resposta
+from quiz.base.models import Resposta, Pergunta
 
 
 def calcula_a_pontuacao_do(aluno_id: int) -> int:
@@ -30,3 +30,31 @@ def lista_de_alunos(numero_de_alunos: int = 5):
     return list(Resposta.objects.values('aluno', 'aluno__nome')
                 .annotate(Sum('pontos'))
                 .order_by('-pontos__sum')[:numero_de_alunos])
+
+
+def numero_repostas_respondidas(aluno_id: int) -> int:
+    """
+    Retorna numero resposta_respondidas pelo um aluno
+    :param aluno_id: Id do aluno
+    :return: numero_repostas_respondidas pelo aluno
+    """
+
+    return Resposta.objects.filter(aluno_id=aluno_id).count()
+
+
+def quiz_finalizado(aluno_id: int) -> bool:
+    """
+    Retorna se o quiz foi finalizado ou não pelo aluno
+    :param aluno_id: Id do aluno
+    :return: True e False
+    """
+
+    return numero_repostas_respondidas(aluno_id) == numero_de_perguntas_ativas()
+
+
+def numero_de_perguntas_ativas() -> int:
+    """
+    Retorna o numero de perguntas ativas.
+    :return:  Retorna de perguntas
+    """
+    return Pergunta.objects.filter(disponivel=True).count()

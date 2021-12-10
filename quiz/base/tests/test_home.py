@@ -15,7 +15,7 @@ def response_get(client: Client):
 
 
 @pytest.fixture
-def response_post_com_aluno_com_email_cadastrado(client: Client, db, um_aluno_db):
+def resp_post_com_aluno_com_email_cadastrado(client: Client, um_aluno_db):
     dct = {'email': um_aluno_db.email,
            'nome': um_aluno_db.nome}
     return client.post(reverse('base:home'), dct)
@@ -27,7 +27,7 @@ def aluno_novo():
 
 
 @pytest.fixture
-def response_post_com_aluno_com_email_novo(client: Client, aluno_novo, db):
+def response_post_com_aluno_com_email_novo(client: Client, aluno_novo, uma_pergunta_db):
     dct = {'nome': aluno_novo.nome,
            'email': aluno_novo.email}
     return client.post(reverse('base:home'), dct)
@@ -55,11 +55,21 @@ def test_home_post_com_aluno_com_email_novo(response_post_com_aluno_com_email_no
     assert response_post_com_aluno_com_email_novo.headers['Location'] == reverse('base:pergunta',  kwargs={'indice': 1})
 
 
-def test_home_post_com_aluno_com_email_cadastrado(response_post_com_aluno_com_email_cadastrado, um_aluno_db):
+def test_home_post_com_aluno_com_email_cadastrado(uma_pergunta_db, resp_post_com_aluno_com_email_cadastrado):
     '''
     Testa o caso que o aluno já tem o email cadastrado
     '''
 
-    assert response_post_com_aluno_com_email_cadastrado.status_code == HTTPStatus.FOUND
-    assert response_post_com_aluno_com_email_cadastrado.headers['Location'] == reverse('base:pergunta',
-                                                                                       kwargs={'indice': 1})
+    assert resp_post_com_aluno_com_email_cadastrado.status_code == HTTPStatus.FOUND
+    assert resp_post_com_aluno_com_email_cadastrado.headers['Location'] == reverse('base:pergunta',
+                                                                                   kwargs={'indice': 1})
+
+
+def test_home_post_com_aluno_com_todas_as_preguntas_respondidas(uma_reposta_db,
+                                                                resp_post_com_aluno_com_email_cadastrado):
+    '''
+    Testa o caso que o aluno já tem o email cadastrado
+    '''
+
+    assert resp_post_com_aluno_com_email_cadastrado.status_code == HTTPStatus.FOUND
+    assert resp_post_com_aluno_com_email_cadastrado.headers['Location'] == reverse('base:classificacao')

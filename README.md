@@ -8,7 +8,7 @@
 
 Nesse repositorio temos o projeto desenvolvido no BootCamp Dev Pro da [PythonPro](www.python.pro.br). O objetivo desse projeto é desenvolver um redutor de url. O link para o deploy da aplicação no **Heroku** pode ser encontrada no link abaixo:
 
-🔥🔥🔥[https://quizdevprov2.herokuapp.com/](https://quizdevprov2.herokuapp.com//)🔥🔥🔥
+🔥🔥🔥[https://quizdevprov2.herokuapp.com/](https://quizdevprov2.herokuapp.com/)🔥🔥🔥
 
 
 
